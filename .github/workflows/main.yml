@@ -1,0 +1,70 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 5'  # 18:00 on Friday JST
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: 'Configure dependencies'
+        run: |
+          uv sync --frozen --all-extras
+      - name: 'Run linters'
+        run: |
+          lefthook run pre-commit --all-files
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+        workspace: ['locked', 'latest']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        id: 'setup-python'
+        with:
+          architecture: x64
+          python-version: ${{ matrix.python-version }}
+      - name: 'Configure env as locked deps by uv.lock'
+        run: |
+          uv sync --frozen --python='${{ steps.setup-python.outputs.python-path }}'
+        if: ${{ matrix.workspace == 'locked'}}
+      - name: 'Configure env as latest deps on PyPI'
+        run: |
+          uv sync -U --python='${{ steps.setup-python.outputs.python-path }}'
+        if: ${{ matrix.workspace == 'latest'}}
+      - name: Run tests
+        run: |
+          uv run pytest
+  buildtest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Build
+        run: |
+          uv build
+          ls -l dist
+  doctest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Run tests
+        run: |
+          uv sync --frozen --all-extras
+          task docs:apidoc docs:build-linkcheck docs:build-dirhtml
