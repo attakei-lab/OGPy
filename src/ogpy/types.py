@@ -35,14 +35,16 @@ class Metadata:
     :ref: https://ogp.me/#metadata
     """
 
+    # Basic metadata
     title: str
     type: str
     url: str
     images: list[ImageMetadata]
+    # Optional metadata
     audio: str | None = None
     description: str | None = None
     determiner: DETERMINER = ""
     locale: str = "en_US"
-    locale_alternatives: list[str] = field(default_factory=list)
+    locale_alternates: list[str] = field(default_factory=list)
     site_name: str | None = None
     video: str | None = None

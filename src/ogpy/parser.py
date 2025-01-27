@@ -1,19 +1,21 @@
 """Parse functions."""
 
-from typing import Any
+from typing import Any, Callable
 
 from bs4 import BeautifulSoup
 
 from . import types
 
 
-def parse_type(name):
+def parse_type(name) -> Callable:
+    """Resolve type of propety."""
     if name in ["width", "height"]:
         return int
     return str
 
 
 def parse(soup: BeautifulSoup) -> types.Metadata:
+    """Parse ogp properties as object from BeautifulSoup."""
     props: dict[str, Any] = {}
     if not soup.head:
         raise ValueError("<head> tag is not exists.")
@@ -31,6 +33,11 @@ def parse(soup: BeautifulSoup) -> types.Metadata:
         if prop.startswith("image:"):
             prop = prop[6:]
             setattr(props["images"][0], prop, parse_type(prop)(meta["content"]))
+            continue
+        # locale_alternates
+        if prop == "locale:alternate":
+            props.setdefault("locale_alternates", [])
+            props["locale_alternates"].append(meta["content"])
             continue
         # Other properties
         props[prop] = meta["content"]
