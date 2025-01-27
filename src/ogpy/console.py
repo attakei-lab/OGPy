@@ -45,6 +45,8 @@ def display(data: types.Metadata):
         print(f"locale:           {data.locale}")
     if data.locale_alternates:
         print(f"locale:alternate: {','.join(data.locale_alternates)}")
+    if data.site_name:
+        print(f"site_name:        {data.site_name}")
     if data.video:
         print(f"video:            {data.video}")
     print("")
