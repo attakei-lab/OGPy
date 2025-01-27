@@ -28,3 +28,16 @@ def test_fetch_online_content(url):
     assert image.width == 300
     assert image.height == 300
     assert image.alt == "The Open Graph logo"
+
+
+@pytest.mark.webtest
+def test_fetch_real_online_content():
+    """This case requests IMDB website that is used as example in OGP website."""
+    data = client.fetch("https://www.imdb.com/title/tt0117500/")
+    assert data.title == "The Rock (1996) ⭐ 7.4 | Action, Adventure, Thriller"
+    assert data.type == "video.movie"
+    assert data.url == "https://www.imdb.com/title/tt0117500/"
+    assert (
+        data.images[0].url
+        == "https://m.media-amazon.com/images/M/MV5BMDhkYjRiZWEtZTE0Ny00ZjA1LThmNjgtM2UyYTQzODA4MjdhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
+    )
