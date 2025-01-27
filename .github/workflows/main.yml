@@ -50,6 +50,7 @@ jobs:
       - name: Run tests
         run: |
           uv run pytest
+          uv run pytest -m webtest
   buildtest:
     runs-on: ubuntu-latest
     steps:
