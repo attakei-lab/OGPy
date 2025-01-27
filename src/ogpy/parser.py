@@ -1,10 +1,16 @@
 """Parse functions."""
 
-from typing import Any, Callable
+from typing import Any, Callable, Type
 
 from bs4 import BeautifulSoup
 
 from . import types
+
+
+def _number(val: str) -> types.NUMBER:
+    if "." in val:
+        return float(val)
+    return int(val)
 
 
 def _determiner(val: str) -> str:
@@ -16,7 +22,7 @@ def _determiner(val: str) -> str:
 def parse_type(name) -> Callable:
     """Resolve type of propety."""
     if name in ["width", "height"]:
-        return int
+        return _number
     if name == "determiner":
         return _determiner
     return str

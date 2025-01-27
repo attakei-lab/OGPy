@@ -11,6 +11,7 @@ from typing import Literal
 
 
 DETERMINER = Literal["a", "an", "the", "", "auto"]
+NUMBER = int | float
 
 
 @dataclass
@@ -23,8 +24,8 @@ class ImageMetadata:
     url: str
     secure_url: str | None = None
     type: str | None = None
-    width: int | None = None
-    height: int | None = None
+    width: NUMBER | None = None
+    height: NUMBER | None = None
     alt: str | None = None
 
 
