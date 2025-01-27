@@ -237,7 +237,7 @@ wheels = [
 
 [[package]]
 name = "httpx"
-version = "0.19.0"
+version = "0.20.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
@@ -246,9 +246,9 @@ dependencies = [
     { name = "rfc3986", extra = ["idna2008"] },
     { name = "sniffio" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5f/38/9a1fa043d8c04e2f3e2639c1adf6b1cf8afa6daf8640cebcdb86067dec17/httpx-0.19.0.tar.gz", hash = "sha256:92ecd2c00c688b529eda11cedb15161eaf02dee9116712f621c70d9a40b2cdd0", size = 97592 }
+sdist = { url = "https://files.pythonhosted.org/packages/62/0d/9804c841eaf5e0f72890e54eff21bb49664289edf8cbe09bd47db513bd68/httpx-0.20.0.tar.gz", hash = "sha256:09606d630f070d07f9ff28104fbcea429ea0014c1e89ac90b4d8de8286c40e7b", size = 104549 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5a/81/df33561b97b951e8e6becf809847a61420288064ae281700b7f9a04fd1e0/httpx-0.19.0-py3-none-any.whl", hash = "sha256:9bd728a6c5ec0a9e243932a9983d57d3cc4a87bb4f554e1360fce407f78f9435", size = 77258 },
+    { url = "https://files.pythonhosted.org/packages/58/05/148ebadb30f498754a738bab07fa88e39b6e401bcd86710f9b36b1cd737d/httpx-0.20.0-py3-none-any.whl", hash = "sha256:33af5aad9bdc82ef1fc89219c1e36f5693bf9cd0ebe330884df563445682c0f8", size = 82459 },
 ]
 
 [[package]]
@@ -432,7 +432,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.0" },
-    { name = "httpx", specifier = ">=0.19.0" },
+    { name = "httpx", specifier = ">=0.20.0" },
 ]
 
 [package.metadata.requires-dev]
