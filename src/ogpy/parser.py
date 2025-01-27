@@ -7,10 +7,18 @@ from bs4 import BeautifulSoup
 from . import types
 
 
+def _determiner(val: str) -> str:
+    if val not in ["a", "an", "the", "", "auto"]:
+        raise ValueError("determiner must be one of 'a', 'an', 'the', '' and 'auto'.")
+    return val
+
+
 def parse_type(name) -> Callable:
     """Resolve type of propety."""
     if name in ["width", "height"]:
         return int
+    if name == "determiner":
+        return _determiner
     return str
 
 
@@ -40,5 +48,5 @@ def parse(soup: BeautifulSoup) -> types.Metadata:
             props["locale_alternates"].append(meta["content"])
             continue
         # Other properties
-        props[prop] = meta["content"]
+        props[prop] = parse_type(prop)(meta["content"])
     return types.Metadata(**props)

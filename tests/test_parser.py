@@ -151,3 +151,51 @@ def test_attribute_types():
     assert isinstance(metadata.images[0].height, int)
     assert isinstance(metadata.images[0].type, str)
     assert metadata.images[0].alt is None
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        pytest.param("<html></html>", ValueError, id="no-head"),
+        pytest.param("<htm><head></head></html>", TypeError, id="no-properties"),
+        pytest.param(
+            """
+            <htm><head>
+                <meta property="og:title" content="EXAMPLE">
+            </head></html>
+            """,
+            TypeError,
+            id="less-attributes",
+        ),
+        pytest.param(
+            """
+            <htm><head>
+                <meta property="og:title" content="EXAMPLE">
+                <meta property="og:type" content="website">
+                <meta property="og:url" content="http://example.com">
+                <meta property="og:image" content="http://example.com/example.jpg">
+                <meta property="og:image:width" content="full">
+            </head></html>
+            """,
+            ValueError,
+            id="invalid-width",
+        ),
+        pytest.param(
+            """
+            <htm><head>
+                <meta property="og:title" content="EXAMPLE">
+                <meta property="og:type" content="website">
+                <meta property="og:url" content="http://example.com">
+                <meta property="og:image" content="http://example.com/example.jpg">
+                <meta property="og:determiner" content="them" >
+            </head></html>
+            """,
+            ValueError,
+            id="invalid-determiner",
+        ),
+    ],
+)
+def test_parse_errors(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    with pytest.raises(expected):
+        parse(soup)
