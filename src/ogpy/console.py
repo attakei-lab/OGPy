@@ -1,7 +1,9 @@
 """CLI entrypoint."""
 
 import argparse
+import json
 import sys
+from dataclasses import asdict
 
 from . import types
 from .client import fetch
@@ -9,6 +11,7 @@ from .client import fetch
 parser = argparse.ArgumentParser(
     description="Parse and display OGP metadata from content."
 )
+parser.add_argument("--format", default="text", choices=["text", "json"])
 parser.add_argument("url", type=str, help="Target URL")
 
 
@@ -52,6 +55,11 @@ def main(argv: list[str] | None = None):
     args = parser.parse_args(argv)
     try:
         data = fetch(args.url)
-        display(data)
+        if args.format == "text":
+            display(data)
+        elif args.format == "json":
+            print(json.dumps(asdict(data)))
+        else:
+            raise ValueError("Invalid format.")
     except Exception as err:
         sys.stderr.write(f"{err}\n")
