@@ -4,7 +4,7 @@ from ogpy import types
 from ogpy.parser import parse
 
 
-def test_small():
+def test_simple_content():
     html = """
         <html>
             <head>
