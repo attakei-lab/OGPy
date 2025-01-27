@@ -1,6 +1,6 @@
 """Parse functions."""
 
-from typing import Any, Callable, Type
+from typing import Any, Callable
 
 from bs4 import BeautifulSoup
 
