@@ -1,18 +1,37 @@
-.. OGPy documentation master file, created by
-   sphinx-quickstart on Mon Jan 27 04:46:58 2025.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-OGPy documentation
-==================
-
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+====
+Home
+====
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :hidden:
 
+   commandline
    api/ogpy
+
+OGPy is *modern* python implementation to consume for The Open Graph protocol.
+
+It has purpose to provide dataset as object from OGP metadata of html.
+
+Installation
+============
+
+.. note:: Not yet. (this note will remove after publish)
+
+This is published on PyPI.
+
+.. code-block:: console
+
+   pip install OGPy
+
+Usage guide
+===========
+
+* :doc:`commandline`
+
+Motivation
+==========
+
+I (attakei) develop this to write reStructuredText directive
+that generates image with link from content URL.
+I need core feature of this to fetch metadata.
