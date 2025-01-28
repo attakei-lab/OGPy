@@ -24,8 +24,13 @@ class OGPDomain(Domain):
     ):
         for node in document.findall(ogp_image_link):
             data = fetch(node["url"])
+            image_prop = data.images[0]
             ref = nodes.reference(refuri=data.url)
-            image = nodes.image(uri=data.images[0].url, alt=data.title)
+            image = nodes.image(uri=image_prop.url, alt=image_prop.alt or data.title)
+            if image_prop.width:
+                image["width"] = f"{image_prop.width}px"
+            if image_prop.height:
+                image["height"] = f"{image_prop.height}px"
             ref.append(image)
             node.append(nodes.figure("", ref))
 
