@@ -27,7 +27,7 @@ classifiers = [
 requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4>=4.0",
-    "httpx>=0.20.0",
+    "httpx>=0.24.0",
 ]
 
 [project.scripts]
@@ -50,6 +50,7 @@ dev = [
     "pytest>=8.3.4",
     "ruff>=0.9.3",
     "sphinx>=7.0.0",
+    "sphinx-autobuild>=2024.10.3",
     "sphinx-intl>=2.3.1",
     "types-beautifulsoup4>=4.12.0.20241020",
 ]
