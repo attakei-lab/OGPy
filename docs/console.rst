@@ -1,6 +1,6 @@
-=================
-Commandline usage
-=================
+==================
+Console-mode usage
+==================
 
 OGPy provides ``ogpy`` command to display content data.
 

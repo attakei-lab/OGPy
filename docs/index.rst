@@ -6,7 +6,7 @@ Home
    :maxdepth: 2
    :hidden:
 
-   commandline
+   console
    api/ogpy
 
 OGPy is *modern* python implementation to consume for The Open Graph protocol.
@@ -27,7 +27,7 @@ This is published on PyPI.
 Usage guide
 ===========
 
-* :doc:`commandline`
+* :doc:`console`
 
 Motivation
 ==========
