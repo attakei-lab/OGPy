@@ -3,6 +3,7 @@
 import importlib.metadata
 
 from docutils import nodes
+from docutils.parsers.rst import directives
 from sphinx.application import Sphinx
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
@@ -32,15 +33,22 @@ class OGPDomain(Domain):
             if image_prop.height:
                 image["height"] = f"{image_prop.height}px"
             ref.append(image)
-            node.append(nodes.figure("", ref))
+            figure = nodes.figure("", ref)
+            if "align" in node:
+                figure["align"] = node["align"]
+            node.append(figure)
 
 
 class OGPImageLinkDirective(SphinxDirective):
     has_content = False
     required_arguments = 1
+    option_spec = {
+        "align": directives.unchanged,
+    }
 
     def run(self):  # noqa: D102
         node = ogp_image_link()
+        node.attributes = self.options
         node["url"] = self.arguments[0]
         return [
             node,
