@@ -32,6 +32,10 @@ class OGPDomain(Domain):
                 image["width"] = f"{image_prop.width}px"
             if image_prop.height:
                 image["height"] = f"{image_prop.height}px"
+            if "width" in node:
+                image["width"] = node["width"]
+            if "height" in node:
+                image["height"] = node["height"]
             ref.append(image)
             figure = nodes.figure("", ref)
             if "align" in node:
@@ -43,6 +47,8 @@ class OGPImageLinkDirective(SphinxDirective):
     has_content = False
     required_arguments = 1
     option_spec = {
+        "width": directives.unchanged,
+        "height": directives.unchanged,
         "align": directives.unchanged,
     }
 
