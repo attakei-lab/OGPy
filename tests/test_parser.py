@@ -195,7 +195,27 @@ def test_attribute_types():
         ),
     ],
 )
-def test_parse_errors(html, expected):
+def test_parse_errors_with_strict(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     with pytest.raises(expected):
-        parse(soup)
+        parse(soup, True)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        pytest.param("<htm><head></head></html>", TypeError, id="no-properties"),
+        pytest.param(
+            """
+            <htm><head>
+                <meta property="og:title" content="EXAMPLE">
+            </head></html>
+            """,
+            TypeError,
+            id="less-attributes",
+        ),
+    ],
+)
+def test_parse_success_when_fuzzy(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    parse(soup)  # Not raise error
