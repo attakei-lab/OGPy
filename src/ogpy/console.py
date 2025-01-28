@@ -31,7 +31,7 @@ def display(data: types.Metadata | types.MetadataStrict):
             print(f"\t  width:  {image.width or '(none)'}")
             print(f"\t  height: {image.height or '(none)'}")
     else:
-        print("image:\t(none)")
+        print("image: No items")
     print("")
     #
     print("## Optional metadata")
