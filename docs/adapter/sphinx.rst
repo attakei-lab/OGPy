@@ -40,4 +40,5 @@ Source:
 Output:
 
 .. ogp-image-link:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
-   :width: 70%
+   :width: 90%
+   :align: center

@@ -3,17 +3,15 @@
 import importlib.metadata
 
 from docutils import nodes
-from docutils.parsers.rst import directives
+from docutils.parsers.rst.directives.images import Image
 from sphinx.application import Sphinx
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
-from sphinx.util.docutils import SphinxDirective
+from sphinx.util.logging import getLogger
 
 from ..client import fetch
 
-
-class ogp_image_link(nodes.General, nodes.Element):  # noqa: D101,E501
-    pass
+logger = getLogger(__name__)
 
 
 class OGPDomain(Domain):
@@ -23,51 +21,36 @@ class OGPDomain(Domain):
     def process_doc(
         self, env: BuildEnvironment, docname: str, document: nodes.document
     ):
-        for node in document.findall(ogp_image_link):
-            data = fetch(node["url"])
+        for node in document.findall(nodes.image):
+            if "mark-ogpy" not in node:
+                continue
+            data = fetch(node["uri"])
+            if not data.images:
+                logger.warning("Image property is not exists.")
+                continue
             image_prop = data.images[0]
-            ref = nodes.reference(refuri=data.url)
-            image = nodes.image(uri=image_prop.url, alt=image_prop.alt or data.title)
-            if image_prop.width:
-                image["width"] = f"{image_prop.width}px"
-            if image_prop.height:
-                image["height"] = f"{image_prop.height}px"
-            if "width" in node:
-                image["width"] = node["width"]
-            if "height" in node:
-                image["height"] = node["height"]
-            ref.append(image)
-            figure = nodes.figure("", ref)
-            if "align" in node:
-                figure["align"] = node["align"]
-            node.append(figure)
+            node["uri"] = image_prop.url
+            if "width" not in node and image_prop.width:
+                node["width"] = f"{image_prop.width}px"
+            if "height" not in node and image_prop.height:
+                node["height"] = f"{image_prop.height}px"
 
 
-class OGPImageLinkDirective(SphinxDirective):
-    has_content = False
-    required_arguments = 1
-    option_spec = {
-        "width": directives.unchanged,
-        "height": directives.unchanged,
-        "align": directives.unchanged,
-    }
+class OGPImageLinkDirective(Image):
+    option_spec = Image.option_spec.copy()
+    del option_spec["target"]
 
     def run(self):  # noqa: D102
-        node = ogp_image_link()
-        node.attributes = self.options
-        node["url"] = self.arguments[0]
-        return [
-            node,
-        ]
-
-
-def pass_it(self, node):
-    pass
+        self.options["target"] = self.arguments[0]
+        nodeset = super().run()
+        imageref = nodeset[-1]
+        image = imageref[0] if imageref.children else imageref
+        image["mark-ogpy"] = True
+        return nodeset
 
 
 def setup(app: Sphinx):
     """Entrypoint as Sphinx-extension."""
-    app.add_node(ogp_image_link, html=(pass_it, pass_it))
     app.add_directive("ogp-image-link", OGPImageLinkDirective)
     app.add_domain(OGPDomain)
     return {

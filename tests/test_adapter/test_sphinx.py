@@ -20,4 +20,6 @@ def test_href(app: SphinxTestApp, status, warning):  # noqa
     app.build()
     html_path = Path(app.outdir) / "index.html"
     soup = BeautifulSoup(html_path.read_text(), "html.parser")
-    assert soup.find_all("a", {"href": "https://ogp.me/"})
+    a = soup.find_all("a", {"href": "http://ogp.me/"})
+    assert a
+    assert a[0].img["src"] == "https://ogp.me/logo.png"
