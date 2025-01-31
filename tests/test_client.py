@@ -41,3 +41,21 @@ def test_fetch_real_online_content():
         data.images[0].url
         == "https://m.media-amazon.com/images/M/MV5BMDhkYjRiZWEtZTE0Ny00ZjA1LThmNjgtM2UyYTQzODA4MjdhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
     )
+
+
+def test_fetch_for_cache__cachable():
+    metadata, expired_at = client.fetch_for_cache("https://ogp.me/")
+    assert metadata.title == "Open Graph protocol"
+    assert metadata.type == "website"
+    assert metadata.url == "https://ogp.me/"
+    assert (
+        metadata.description
+        == "The Open Graph protocol enables any web page to become a rich object in a social graph."
+    )
+    assert len(metadata.images) == 1
+    image = metadata.images[0]
+    assert image.url == "https://ogp.me/logo.png"
+    assert image.width == 300
+    assert image.height == 300
+    assert image.alt == "The Open Graph logo"
+    assert expired_at
