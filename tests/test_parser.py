@@ -198,7 +198,7 @@ def test_attribute_types():
 def test_parse_errors_with_strict(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     with pytest.raises(expected):
-        parse(soup, True)
+        parse(soup, False)
 
 
 @pytest.mark.parametrize(
@@ -218,4 +218,4 @@ def test_parse_errors_with_strict(html, expected):
 )
 def test_parse_success_when_fuzzy(html, expected):
     soup = BeautifulSoup(html, "html.parser")
-    parse(soup)  # Not raise error
+    parse(soup, True)  # Not raise error

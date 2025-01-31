@@ -11,12 +11,12 @@ from .client import fetch
 parser = argparse.ArgumentParser(
     description="Parse and display OGP metadata from content."
 )
-parser.add_argument("--strict", default=False, action="store_true")
+parser.add_argument("--fuzzy", default=False, action="store_true")
 parser.add_argument("--format", default="text", choices=["text", "json"])
 parser.add_argument("url", type=str, help="Target URL")
 
 
-def display(data: types.Metadata | types.MetadataStrict):
+def display(data: types.Metadata | types.MetadataFuzzy):
     """Display metadata as user-readable on console."""
     print("## Basic metadata")
     print("")
@@ -57,7 +57,7 @@ def main(argv: list[str] | None = None):
     argv = argv or sys.argv[1:]
     args = parser.parse_args(argv)
     try:
-        data = fetch(args.url, args.strict)
+        data = fetch(args.url, args.fuzzy)
         if args.format == "text":
             display(data)
         elif args.format == "json":

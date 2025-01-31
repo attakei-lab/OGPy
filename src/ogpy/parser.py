@@ -29,8 +29,8 @@ def parse_type(name) -> Callable:
 
 
 def parse(
-    soup: BeautifulSoup, strict: bool = False
-) -> types.Metadata | types.MetadataStrict:
+    soup: BeautifulSoup, fuzzy_mode: bool = False
+) -> types.Metadata | types.MetadataFuzzy:
     """Parse ogp properties as object from BeautifulSoup."""
     props: dict[str, Any] = {}
     if not soup.head:
@@ -57,4 +57,4 @@ def parse(
             continue
         # Other properties
         props[prop] = parse_type(prop)(meta["content"])
-    return (types.MetadataStrict if strict else types.Metadata)(**props)
+    return (types.MetadataFuzzy if fuzzy_mode else types.Metadata)(**props)

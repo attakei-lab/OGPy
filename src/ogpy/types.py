@@ -47,7 +47,7 @@ class _OptionalMetadata:
 
 
 @dataclass
-class MetadataStrict(_OptionalMetadata):
+class Metadata(_OptionalMetadata):
     """Open Graph metadata structure.
 
     This class raises error when content don't have required properties.
@@ -62,7 +62,7 @@ class MetadataStrict(_OptionalMetadata):
 
 
 @dataclass
-class Metadata(_OptionalMetadata):
+class MetadataFuzzy(_OptionalMetadata):
     """Open Graph metadata structure.
 
     This class does not raise error if content don't have any properties.
