@@ -7,7 +7,7 @@ Home
    :hidden:
 
    console
-   adapter/index
+   adapters/index
    api/ogpy
 
 OGPy is *modern* python implementation to consume for The Open Graph protocol.

@@ -11,7 +11,7 @@ release = metadata.version("ogpy")
 extensions = [
     "sphinx.ext.autodoc",
     # My extensions
-    "ogpy.adapter.sphinx",
+    "ogpy.adapters.sphinx",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]

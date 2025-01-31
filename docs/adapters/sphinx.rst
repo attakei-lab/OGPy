@@ -14,7 +14,7 @@ It requires Sphinx.
 
    extension = [
        ...,  # Other extensions
-       "ogpy.adapter.sphinx",
+       "ogpy.adapters.sphinx",
    ]
 
 Usage

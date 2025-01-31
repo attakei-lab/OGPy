@@ -1,3 +1,3 @@
 extensions = [
-    "ogpy.adapter.sphinx",
+    "ogpy.adapters.sphinx",
 ]
