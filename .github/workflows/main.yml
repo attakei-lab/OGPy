@@ -34,18 +34,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        id: 'setup-python'
-        with:
-          architecture: x64
-          python-version: ${{ matrix.python-version }}
+        run: |
+          echo ${{ matrix.python-version }} > .python-version
       - name: 'Configure env as locked deps by uv.lock'
         run: |
-          uv sync --frozen --python='${{ steps.setup-python.outputs.python-path }}'
+          uv sync --all-extras --frozen
         if: ${{ matrix.workspace == 'locked'}}
       - name: 'Configure env as latest deps on PyPI'
         run: |
-          uv sync -U --python='${{ steps.setup-python.outputs.python-path }}'
+          uv sync --all-extras -U
         if: ${{ matrix.workspace == 'latest'}}
       - name: Run tests
         run: |
