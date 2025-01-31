@@ -27,7 +27,7 @@ classifiers = [
 requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4>=4.0",
-    "httpx>=0.20.0",
+    "httpx>=0.24.0",
 ]
 
 [project.scripts]
