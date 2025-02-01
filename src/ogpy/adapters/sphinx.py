@@ -57,7 +57,7 @@ class OGPDomain(Domain):
                 node["height"] = f"{image_prop.height}px"
 
 
-class OGPImageLinkDirective(Image):
+class OGPImageDirective(Image):
     option_spec = Image.option_spec.copy()
     del option_spec["target"]
 
@@ -72,7 +72,7 @@ class OGPImageLinkDirective(Image):
 
 def setup(app: Sphinx):
     """Entrypoint as Sphinx-extension."""
-    app.add_directive("ogp-image-link", OGPImageLinkDirective)
+    app.add_directive("ogp-image", OGPImageDirective)
     app.add_domain(OGPDomain)
     return {
         "version": importlib.metadata.version("ogpy"),

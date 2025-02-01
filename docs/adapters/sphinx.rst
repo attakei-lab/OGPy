@@ -20,8 +20,8 @@ It requires Sphinx.
 Usage
 =====
 
-``ogp-image-link`` directive
-----------------------------
+``ogp-image`` directive
+-----------------------
 
 Fetch content from URL, and render image with link.
 See :ref:`demo`.
@@ -35,10 +35,12 @@ Source:
 
 .. code-block:: rst
 
-   .. ogp-image-link:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+   .. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+      :width: 90%
+      :align: center
 
 Output:
 
-.. ogp-image-link:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+.. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
    :width: 90%
    :align: center
