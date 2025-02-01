@@ -32,6 +32,7 @@ Usage guide
 You can use it by some procedures.
 
 * :doc:`console`
+* :doc:`/adapters/sphinx`
 
 Notes
 =====
