@@ -12,6 +12,7 @@ extensions = [
     # Built-in extensions
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
+    # Third-party extensions
     # My extensions
     "ogpy.adapters.sphinx",
 ]
@@ -23,8 +24,37 @@ gettext_compact = False
 locale_dirs = ["_locales"]
 
 # -- Options for HTML output
-html_theme = "alabaster"
+html_title = f"{project} v{release}"
 html_static_path = ["_static"]
+html_theme = "bulma-basic"
+html_theme_options = {
+    "color_mode": "light",
+    "bulmaswatch": "sandstone",
+    "logo_description": "This is documentation of OGPy.",
+    "sidebar_position": "right",
+    "sidebar_size": 3,
+    "navbar_icons": [
+        {
+            "label": "",
+            "icon": "fa-brands fa-solid fa-github fa-2x",
+            "url": "https://github.com/atsphinx/bulma",
+        }
+    ],
+}
+html_css_files = [
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/solid.min.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css",
+    "main.css",
+]
+html_sidebars = {
+    "**": [
+        "sidebar/logo.html",
+        "sidebar/line.html",
+        "sidebar/searchbox.html",
+        "sidebar/localtoc.html",
+    ]
+}
 
 # -- Options for extensions
 # sphinx.ext.intersphinx

@@ -44,6 +44,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "atsphinx-bulma>=0.2.1",
     "doc8>=1.1.2",
     "esbonio>=0.16.5",
     "mypy>=1.14.1",

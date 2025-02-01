@@ -1,0 +1,6 @@
+.navbar {
+	.navbar-item,
+	.navbar-link {
+		text-transform: none;
+	}
+}
