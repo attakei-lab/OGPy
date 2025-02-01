@@ -62,6 +62,11 @@ markers = [
 
 ]
 
+[[tool.uv.index]]
+name = "attakei-dev"
+url = "https://pypi.attakei.dev/simple/"
+publish-url = "https://pypi.attakei.dev/simple/"
+
 [[tool.mypy.overrides]]
 module = ['docutils', 'docutils.*']
 ignore_missing_imports = true
