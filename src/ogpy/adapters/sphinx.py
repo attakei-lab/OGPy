@@ -1,6 +1,8 @@
 """OGPy Sphinx adapter."""
 
 import importlib.metadata
+from datetime import datetime
+from typing import Tuple
 
 from docutils import nodes
 from docutils.parsers.rst.directives.images import Image
@@ -9,7 +11,8 @@ from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 from sphinx.util.logging import getLogger
 
-from ..client import fetch
+from .. import types
+from ..client import fetch_for_cache
 
 logger = getLogger(__name__)
 
@@ -18,13 +21,31 @@ class OGPDomain(Domain):
     name = __name__
     label = "ogpy"
 
+    @property
+    def caches(self) -> dict[str, Tuple[types.Metadata | types.MetadataFuzzy, int]]:
+        """Cache storage for OGP metadata."""
+        self.data.setdefault("caches", {})
+        return self.data["caches"]
+
+    def _get_metadata(self, url) -> types.Metadata | types.MetadataFuzzy:
+        now = datetime.now()
+        if url in self.caches:
+            data, cache_expired = self.caches[url]
+            if cache_expired >= int(now.timestamp()):
+                return data
+
+        data, expired = fetch_for_cache(url)
+        if expired:
+            self.caches[url] = (data, expired)
+        return data
+
     def process_doc(
         self, env: BuildEnvironment, docname: str, document: nodes.document
     ):
         for node in document.findall(nodes.image):
             if "mark-ogpy" not in node:
                 continue
-            data = fetch(node["uri"])
+            data = self._get_metadata(node["uri"])
             if not data.images:
                 logger.warning("Image property is not exists.")
                 continue
