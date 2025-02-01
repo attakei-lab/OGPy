@@ -9,6 +9,7 @@ release = metadata.version("ogpy")
 
 # -- General configuration
 extensions = [
+    # Built-in extensions
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     # My extensions
