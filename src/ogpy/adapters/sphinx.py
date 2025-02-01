@@ -18,6 +18,11 @@ logger = getLogger(__name__)
 
 
 class OGPDomain(Domain):
+    """Domain to manage contents metadata.
+
+    This has client and cache store.
+    """
+
     name = __name__
     label = "ogpy"
 
@@ -28,6 +33,10 @@ class OGPDomain(Domain):
         return self.data["caches"]
 
     def _get_metadata(self, url) -> types.Metadata | types.MetadataFuzzy:
+        """Retrieve metadata of url.
+
+        When data is cached and reusable, use cache.
+        """
         now = datetime.now()
         if url in self.caches:
             data, cache_expired = self.caches[url]
@@ -42,6 +51,7 @@ class OGPDomain(Domain):
     def process_doc(
         self, env: BuildEnvironment, docname: str, document: nodes.document
     ):
+        """Find images flagged as ``mark-ogpy`` and replace uri by metadata."""
         for node in document.findall(nodes.image):
             if "mark-ogpy" not in node:
                 continue
@@ -58,6 +68,12 @@ class OGPDomain(Domain):
 
 
 class OGPImageDirective(Image):
+    """Extended directive for og-image.
+
+    User pass content url as arguments instead of image url.
+    In extension process, it converts from content to image.
+    """
+
     option_spec = Image.option_spec.copy()
     del option_spec["target"]
 
@@ -66,6 +82,7 @@ class OGPImageDirective(Image):
         nodeset = super().run()
         imageref = nodeset[-1]
         image = imageref[0] if imageref.children else imageref
+        # Flag that image uri is set content URL, and fetch metadata by OgpDomain.
         image["mark-ogpy"] = True
         return nodeset
 
