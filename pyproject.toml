@@ -56,3 +56,8 @@ markers = [
   "webtest: Marks to use real HTTP connection",
 
 ]
+
+[[tool.uv.index]]
+name = "attakei-dev"
+url = "https://pypi.attakei.dev/simple/"
+publish-url = "https://pypi.attakei.dev/simple/"
