@@ -8,7 +8,7 @@ Home
 
    console
    adapters/index
-   api/ogpy
+   api
 
 OGPy is Python 3-native implementation to consume for The Open Graph protocol.
 
