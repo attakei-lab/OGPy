@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -30,15 +31,15 @@ wheels = [
 
 [[package]]
 name = "atsphinx-bulma"
-version = "0.2.1"
+version = "0.2.2"
 source = { registry = "https://pypi.attakei.dev/simple/" }
 dependencies = [
     { name = "sphinx" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/05/b9/3b38621f020757025fce3d908447f91269fc4de3ed6641cd4f6bba4e1ea3/atsphinx_bulma-0.2.1.tar.gz", hash = "sha256:f5be2f2203dac0ce1148d1d737ad13e8a1d87f283438a845bb84d06881ba01fe", size = 73079 }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/1f/e2da7465ecc77765ee0cb1a5d0df0b8caa3cfdb53fbb54c16fbd6e8051be/atsphinx_bulma-0.2.2.tar.gz", hash = "sha256:3eba004826ef25e8b5c3ac4f9de415d513f222a931fbe99716f577b2616c574d", size = 73772 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9d/cc/06daf6f9be6425ce6c6ddbe1bc8cd39463d21dfb35701186f64c1566ced7/atsphinx_bulma-0.2.1-py3-none-any.whl", hash = "sha256:73327a42c181f77b1abdcea7ed82b847b58ba95abad12f55d18df25f334e2935", size = 16000 },
+    { url = "https://files.pythonhosted.org/packages/76/4e/ec11ca39fd8e4d5e37d3215aa34689e7bba6b6a5cfd3c86ef671720405a9/atsphinx_bulma-0.2.2-py3-none-any.whl", hash = "sha256:113a349da2215789e7e0eb91a4b3c97fa3d7505f24c08a5c13b407af88b66e11", size = 16172 },
 ]
 
 [[package]]
@@ -455,10 +456,11 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.24.0" },
     { name = "sphinx", marker = "extra == 'sphinx'", specifier = ">=7.0" },
 ]
+provides-extras = ["sphinx"]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "atsphinx-bulma", specifier = ">=0.2.1" },
+    { name = "atsphinx-bulma", specifier = ">=0.2.2" },
     { name = "doc8", specifier = ">=1.1.2" },
     { name = "esbonio", specifier = ">=0.16.5" },
     { name = "mypy", specifier = ">=1.14.1" },
