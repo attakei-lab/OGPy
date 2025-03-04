@@ -34,15 +34,18 @@ This is convenience to integrate for shell-pipeline.
    $ ogpy --format=json https://ogp.me
    {"title": "Open Graph protocol", "type": "website", "url": "https://ogp.me/", "images": [{"url": "https://ogp.me/logo.png", "secure_url": null, "type": "image/png", "width": 300, "height": 300, "alt": "The Open Graph logo"}], "audio": null, "description": "The Open Graph protocol enables any web page to become a rich object in a social graph.", "determiner": "", "locale": "en_US", "locale_alternates": [], "site_name": null, "video": null}
 
-Strict mode
-===========
+Fuzzy mode
+==========
 
-When you set ``--strict`` in running,
-CLI display metadata only if content have all required properties.
+When you set ``--fuzzy`` in running,
+CLI display metadata if content does not have all required properties.
 
 .. code-block:: console
 
    $ ogpy https://x.com/attakei
+   MetadataStrict.__init__() missing 4 required positional arguments: 'title', 'type', 'url', and 'images'
+
+   $ ogpy --fuzzy https://x.com/attakei
    ## Basic metadata
 
    title: None
@@ -54,6 +57,3 @@ CLI display metadata only if content have all required properties.
 
    locale:           en_US
    site_name:        X (formerly Twitter)
-
-   $ ogpy --strict https://x.com/attakei
-   MetadataStrict.__init__() missing 4 required positional arguments: 'title', 'type', 'url', and 'images'
