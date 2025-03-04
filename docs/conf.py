@@ -37,7 +37,7 @@ html_theme_options = {
         {
             "label": "",
             "icon": "fa-brands fa-solid fa-github fa-2x",
-            "url": "https://github.com/atsphinx/bulma",
+            "url": "https://github.com/attakei-lab/OGPy",
         }
     ],
 }

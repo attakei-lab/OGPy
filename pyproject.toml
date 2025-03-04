@@ -38,6 +38,11 @@ sphinx = [
     "sphinx>=7.0",
 ]
 
+[project.urls]
+Home = "https://github.com/atakei-lab/OGPy/"
+Documentation = "https://ogpy.readthedocs.io/stable/"
+Repository = "https://github.com/atakei-lab/OGPy/"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
