@@ -18,8 +18,8 @@ replace = "Documentation = \"https://ogpy.readthedocs.io/en/v{{new_version}}/\""
 [[files]]
 path = "CHANGES.rst"
 search = """
-ver {{current_version}}
-===={% for _ in current_version %}={% endfor %}
+v{{current_version}}
+={% for _ in current_version %}={% endfor %}
 """
 
 replace = """
