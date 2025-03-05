@@ -7,6 +7,7 @@ Home
    :hidden:
 
    console
+   library
    adapters/index
    api
    changes
@@ -33,8 +34,8 @@ Usage guide
 You can use it by some procedures.
 
 * :doc:`console`
+* :doc:`library`
 * :doc:`/adapters/sphinx`
-* :doc:`Use as library <api>`
 
 Notes
 =====
