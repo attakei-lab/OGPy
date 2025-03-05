@@ -73,9 +73,22 @@ jobs:
           asset_path: dist/${{ steps.get-asset-names.outputs.wheel }}
           asset_name: ${{ steps.get-asset-names.outputs.wheel }}
           asset_content_type: application/zip
-      # NOTE: Currently do not publish as public project.
-      # - name: Publish to PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   with:
-      #     user: __token__
-      #     password: ${{ secrets.PYPI_API_TOKEN }}
+  # NOTE: Currently do not publish as public project.
+  # publish-pypi:
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - check-stage
+  #     - build
+  #   environment:
+  #     name: pypi
+  #     url: https://pypi.org/p/OGPy
+  #   permissions:
+  #     id-token: write
+  #   steps:
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: dist-packages
+  #         path: dist/
+  #     - name: Publish to PyPI
+  #       uses: pypa/gh-action-pypi-publish@release/v1
