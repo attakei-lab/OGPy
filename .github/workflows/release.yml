@@ -22,10 +22,18 @@ jobs:
       - name: Build packages
         run: |
           uv build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: dist-packages
           path: dist
+      - name: Store filepath
+        id: store-filepath
+        run: |
+          echo ::set-output name=targz::$(basename $(ls dist/*tar.gz))
+          echo ::set-output name=wheel::$(basename $(ls dist/*whl))
+    outputs:
+      package-sdist: ${{ steps.store-filepath.outputs.targz }}
+      package-bdist: ${{ steps.store-filepath.outputs.wheel }}
   release-github:
     runs-on: ubuntu-latest
     needs:
@@ -33,37 +41,24 @@ jobs:
       - build
     steps:
       - uses: actions/checkout@v4
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dist-packages
           path: dist/
-      - name: Get asset names
-        id: get-asset-names
-        run: |
-          echo ::set-output name=targz::$(basename $(ls dist/*tar.gz))
-          echo ::set-output name=wheel::$(basename $(ls dist/*whl))
       - name: Create release on GitHub
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IS_PRERELEASE: job.check-stage.steps.release-stage.outputs.is_ga != 1
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body_path: '.github/release-body.md'
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body_path: .github/release-body.md
+          body: |
+            To know update details, please see [Changelog](https://ogpy.readthedocs.io/stable/changes/) of documentation.
           draft: false
-          prerelease: ${{ env.IS_PRERELEASE }}
-      - name: Upload sdist to GitHub
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/${{ steps.get-asset-names.outputs.targz }}
-          asset_name: ${{ steps.get-asset-names.outputs.targz }}
-          asset_content_type: application/gzip
+          prerelease: ${{ needs.prepare.outputs.is-prerelease }}
+          files: |
+            dist/${{ needs.build.outputs.package-sdist }}
+            dist/${{ needs.build.outputs.package-bdist }}
       - name: Upload wheel to GitHub
         uses: actions/upload-release-asset@v1
         env:
