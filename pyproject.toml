@@ -1,6 +1,6 @@
 [project]
 name = "ogpy"
-version = "0.0.0"
+version = "0.1.0"
 description = "Modern consumer of Open Graph protocol"
 readme = "README.rst"
 authors = [
