@@ -33,6 +33,7 @@ You can use it by some procedures.
 
 * :doc:`console`
 * :doc:`/adapters/sphinx`
+* :doc:`Use as library <api>`
 
 Notes
 =====
