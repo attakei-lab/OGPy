@@ -2,16 +2,6 @@
 Home
 ====
 
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-
-   console
-   library
-   adapters/index
-   api
-   changes
-
 OGPy is Python 3-native implementation to consume for The Open Graph protocol.
 
 It has purpose to provide dataset as :py:func:`dataclass <dataclasses.dataclass>` object from OGP metadata of html.
@@ -59,3 +49,18 @@ Motivation
 I (attakei) develop this to write reStructuredText directive
 that generates image with link from content URL.
 I need core feature of this to fetch metadata.
+
+
+Sitemap
+=======
+
+.. toctree::
+   :maxdepth: 2
+   :includehidden:
+
+   console
+   library
+   adapters/index
+   api
+   changes
+
