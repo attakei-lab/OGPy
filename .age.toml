@@ -18,17 +18,15 @@ replace = "Documentation = \"https://ogpy.readthedocs.io/en/v{{new_version}}/\""
 [[files]]
 path = "CHANGES.rst"
 search = """
-Change logs
-===========
+ver {{current_version}}
+===={% for _ in current_version %}={% endfor %}
 """
-replace = """
-Change logs
-===========
 
+replace = """
 v{{ new_version }}
 ={% for _ in new_version %}={% endfor %}
 
-:date: {{ now|date }} (JST)
+:date: {{ now|date }} (Asia/Tokyo)
 
 Breaking changes
 ----------------
@@ -41,6 +39,9 @@ Fixes
 
 Others
 ------
+
+ver {{current_version}}
+===={% for _ in current_version %}={% endfor %}
 """
 
 [[files]]
