@@ -31,16 +31,40 @@ See :ref:`demo`.
 Demo
 ====
 
-Source:
+.. tab-set::
+   :sync-group: demo
 
-.. code-block:: rst
+   .. tab-item:: Output
+      :sync: output
 
-   .. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
-      :width: 90%
-      :align: center
+      .. ogp-image:: https://github.com/attakei-lab/OGPy
+         :scale: 50%
+         :align: center
 
-Output:
+   .. tab-item:: Source
+      :sync: source
 
-.. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
-   :width: 90%
-   :align: center
+      .. code-block:: rst
+
+         .. ogp-image:: https://github.com/attakei-lab/OGPy
+            :scale: 50%
+            :align: center
+
+.. tab-set::
+   :sync-group: demo
+
+   .. tab-item:: Output
+      :sync: output
+
+      .. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+         :width: 80%
+         :align: center
+
+   .. tab-item:: Source
+      :sync: source
+
+      .. code-block:: rst
+
+         .. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+            :width: 80%
+            :align: center

@@ -13,6 +13,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     # Third-party extensions
+    "sphinx_design",
     # My extensions
     "ogpy.adapters.sphinx",
 ]
