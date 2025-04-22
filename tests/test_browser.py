@@ -62,3 +62,22 @@ def test_fetch__with_installing_browser():
     assert data.title == "sphinx-revealjs"
     assert data.type == "website"
     assert data.url == "https://pypi.org/project/sphinx-revealjs/"
+
+
+@pytest.mark.webtest
+def test_fetch_for_cache__cachable():
+    metadata, expired_at = browser.fetch_for_cache("https://ogp.me/")
+    assert metadata.title == "Open Graph protocol"
+    assert metadata.type == "website"
+    assert metadata.url == "https://ogp.me/"
+    assert (
+        metadata.description
+        == "The Open Graph protocol enables any web page to become a rich object in a social graph."
+    )
+    assert len(metadata.images) == 1
+    image = metadata.images[0]
+    assert image.url == "https://ogp.me/logo.png"
+    assert image.width == 300
+    assert image.height == 300
+    assert image.alt == "The Open Graph logo"
+    assert expired_at
