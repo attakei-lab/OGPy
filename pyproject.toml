@@ -37,6 +37,9 @@ dependencies = [
 sphinx = [
     "sphinx>=7.0",
 ]
+browser = [
+    "playwright>=1.51.0",
+]
 
 [project.urls]
 Home = "https://github.com/atakei-lab/OGPy/"
