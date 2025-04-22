@@ -1,5 +1,5 @@
 [project]
-name = "ogpy"
+name = "OGPy"
 version = "0.1.0"
 description = "Modern consumer of Open Graph protocol"
 readme = "README.rst"
