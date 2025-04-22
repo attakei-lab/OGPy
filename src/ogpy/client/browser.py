@@ -6,7 +6,6 @@ Functions uses Playwright and browser instead of httpx.
 
 from __future__ import annotations
 
-import time
 from typing import TYPE_CHECKING
 
 from bs4 import BeautifulSoup
