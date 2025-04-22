@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import logging
 import subprocess
-from pathlib import Path
 from typing import TYPE_CHECKING, Literal
 
 from bs4 import BeautifulSoup
@@ -17,7 +16,7 @@ from playwright.sync_api import sync_playwright
 from .. import parser, types
 
 if TYPE_CHECKING:
-    from playwright.sync_api import Browser, BrowserType, Playwright
+    from playwright.sync_api import Browser, Playwright
 
 logger = logging.getLogger(__name__)
 
