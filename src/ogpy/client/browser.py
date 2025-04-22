@@ -55,6 +55,44 @@ def get_browser(playwright: Playwright, name: BrowserLabel) -> Browser:
     return getattr(playwright, browser_name).launch(channel=browser_channel)
 
 
+class Engine:
+    def __init__(
+        self,
+        playwright: Playwright,
+        browser_name: BrowserLabel = "chromium",
+        fuzzy_mode: bool = False,
+    ):
+        self._playwright = playwright
+        self._browser = get_browser(self._playwright, browser_name)
+        self._fuzzy_mode = fuzzy_mode
+
+    def fetch_for_cache(
+        self, url: str
+    ) -> Tuple[types.Metadata | types.MetadataFuzzy, int]:
+        """Fetch and parse HTTP content. return with max-age for caching."""
+        now = datetime.now()
+        max_age = int(now.timestamp())
+        page = self._browser.new_page()
+        resp = page.goto(url, wait_until="networkidle")
+        if not resp:
+            raise Exception("Response is `None`.")
+        if not resp.ok:
+            raise Exception(f"Response status is {resp.status} {resp.status_text}")
+        soup = BeautifulSoup(page.content(), "html.parser")
+        if "cache-control" in resp.headers:
+            parts = re.split(r",\s+", resp.headers["cache-control"])
+            values = dict([v.split("=") for v in parts if "=" in v])
+            max_age = int(now.timestamp()) + int(values.get("max-age", 0))
+            if "age" in resp.headers:
+                max_age -= int(resp.headers["age"])
+        return parser.parse(soup, self._fuzzy_mode), max_age
+
+    def fetch(self, url: str) -> types.Metadata | types.MetadataFuzzy:
+        """Fetch and parse HTTP content."""
+        metadata, _ = self.fetch_for_cache(url)
+        return metadata
+
+
 def fetch(
     url: str,
     fuzzy_mode: bool = False,
@@ -62,16 +100,8 @@ def fetch(
 ) -> types.Metadata | types.MetadataFuzzy:
     """Fetch and parse HTTP content."""
     with sync_playwright() as p:
-        browser = get_browser(p, browser_name)
-        page = browser.new_page()
-        resp = page.goto(url, wait_until="networkidle")
-        if not resp:
-            raise Exception("Response is `None`.")
-        if not resp.ok:
-            raise Exception(f"Response status is {resp.status} {resp.status_text}")
-        print(page.content())
-        soup = BeautifulSoup(page.content(), "html.parser")
-    return parser.parse(soup, fuzzy_mode)
+        engine = Engine(p, browser_name, fuzzy_mode)
+        return engine.fetch(url)
 
 
 def fetch_for_cache(
@@ -80,21 +110,6 @@ def fetch_for_cache(
     browser_name: BrowserLabel = "chromium",
 ) -> Tuple[types.Metadata | types.MetadataFuzzy, int | None]:
     """Fetch and parse HTTP content. return with max-age for caching."""
-    now = datetime.now()
-    max_age = None
     with sync_playwright() as p:
-        browser = get_browser(p, browser_name)
-        page = browser.new_page()
-        resp = page.goto(url, wait_until="networkidle")
-        if not resp:
-            raise Exception("Response is `None`.")
-        if not resp.ok:
-            raise Exception(f"Response status is {resp.status} {resp.status_text}")
-        if "cache-control" in resp.headers:
-            parts = re.split(r",\s+", resp.headers["cache-control"])
-            values = dict([v.split("=") for v in parts if "=" in v])
-            max_age = int(now.timestamp()) + int(values.get("max-age", 0))
-            if "age" in resp.headers:
-                max_age -= int(resp.headers["age"])
-        soup = BeautifulSoup(page.content(), "html.parser")
-    return parser.parse(soup, fuzzy_mode), max_age
+        engine = Engine(p, browser_name, fuzzy_mode)
+        return engine.fetch_for_cache(url)
