@@ -6,7 +6,10 @@ Functions uses Playwright and browser instead of httpx.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import logging
+import subprocess
+from pathlib import Path
+from typing import TYPE_CHECKING, Literal
 
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
@@ -14,19 +17,45 @@ from playwright.sync_api import sync_playwright
 from .. import parser, types
 
 if TYPE_CHECKING:
-    from playwright.sync_api import Browser, Playwright
+    from playwright.sync_api import Browser, BrowserType, Playwright
+
+logger = logging.getLogger(__name__)
+
+BrowserName = Literal["chromium", "firefox", "webkit"]
+BrowserChannel = Literal[
+    "chrome",
+    "msedge",
+    "chrome-beta",
+    "msedge-beta",
+    "chrome-dev",
+    "msedge-dev",
+    "chrome-canary",
+    "msedge-canary",
+]
+BrowserLabel = BrowserName | BrowserChannel
 
 
-def get_browser(playwright: Playwright, name: str) -> Browser:
-    if not hasattr(playwright, name):
+def get_browser(playwright: Playwright, name: BrowserLabel) -> Browser:
+    browser_name = "chromium"
+    browser_channel = None
+    if name in BrowserName.__args__:  # type: ignore[attr-defined]
+        browser_name = name
+    elif name in BrowserChannel.__args__:  # type: ignore[attr-defined]
+        browser_channel = name
+    else:
         raise ValueError(f"Browser type '{name}' is not supported.")
-    return playwright.chromium.launch(channel=name)
+
+    # Install browser automatically.
+    logger.info(f"Now installing browser '{name}' automatically.")
+    subprocess.run(f"playwright install {name}".split())
+
+    return getattr(playwright, browser_name).launch(channel=browser_channel)
 
 
 def fetch(
     url: str,
     fuzzy_mode: bool = False,
-    browser_name: str = "chromium",
+    browser_name: BrowserLabel = "chromium",
 ) -> types.Metadata | types.MetadataFuzzy:
     """Fetch and parse HTTP content."""
     with sync_playwright() as p:

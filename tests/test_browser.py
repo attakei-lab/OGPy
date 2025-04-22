@@ -51,3 +51,14 @@ def test_fetch__wait_javascript_challenge():
     assert data.title == "sphinx-revealjs"
     assert data.type == "website"
     assert data.url == "https://pypi.org/project/sphinx-revealjs/"
+
+
+@pytest.mark.webtest
+def test_fetch__with_installing_browser():
+    """This case requests IMDB website that is used as example in OGP website."""
+    data = browser.fetch(
+        "https://pypi.org/project/sphinx-revealjs", browser_name="firefox"
+    )
+    assert data.title == "sphinx-revealjs"
+    assert data.type == "website"
+    assert data.url == "https://pypi.org/project/sphinx-revealjs/"
