@@ -25,6 +25,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 BrowserName = Literal["chromium", "firefox", "webkit"]
+"""Browser type category of Playwright."""
 BrowserChannel = Literal[
     "chrome",
     "msedge",
@@ -35,10 +36,22 @@ BrowserChannel = Literal[
     "chrome-canary",
     "msedge-canary",
 ]
+"""Chromium channel category of Playwright."""
 BrowserLabel = BrowserName | BrowserChannel
+"""Combined types that is accepted by functions."""
 
 
 def get_browser(playwright: Playwright, name: BrowserLabel) -> Browser:
+    """Retrieve browser instance of Playwright.
+
+    This function works these automatically.
+
+    * Detect browser 'type' or 'channel'.
+    * Download executable if it is not installed yet.
+
+    :param playwright: Playwright object.
+    :param name: Target browser for using.
+    """
     browser_name = "chromium"
     browser_channel = None
     if name in BrowserName.__args__:  # type: ignore[attr-defined]
@@ -56,12 +69,27 @@ def get_browser(playwright: Playwright, name: BrowserLabel) -> Browser:
 
 
 class Engine:
+    """Low-level class to fetch Open Graph metadata by Browser."""
+
     def __init__(
         self,
         playwright: Playwright,
         browser_name: BrowserLabel = "chromium",
         fuzzy_mode: bool = False,
     ):
+        """Initialize engine.
+
+        This class must be created in Playwright context.
+
+        .. code:: python
+
+           with sync_playwright() as p:
+               engine = Engine(p)
+
+        :param playwright: Running Playwright object.
+        :param browser_name: Using browser.
+        :param fuzzy_mode: Flag to enable "Fuzzy mode", See :ref:`fuzzy-mode`.
+        """
         self._playwright = playwright
         self._browser = get_browser(self._playwright, browser_name)
         self._fuzzy_mode = fuzzy_mode
@@ -69,7 +97,11 @@ class Engine:
     def fetch_for_cache(
         self, url: str
     ) -> Tuple[types.Metadata | types.MetadataFuzzy, int]:
-        """Fetch and parse HTTP content. return with max-age for caching."""
+        """Fetch and parse HTTP content. return with max-age for caching.
+
+        :param url: Target URL.
+        :returns: Fetched meatadata and cachable max-age (seconds).
+        """
         now = datetime.now()
         max_age = int(now.timestamp())
         page = self._browser.new_page()
@@ -88,7 +120,11 @@ class Engine:
         return parser.parse(soup, self._fuzzy_mode), max_age
 
     def fetch(self, url: str) -> types.Metadata | types.MetadataFuzzy:
-        """Fetch and parse HTTP content."""
+        """Fetch and parse HTTP content.
+
+        :param url: Target URL.
+        :returns: Fetched meatadata.
+        """
         metadata, _ = self.fetch_for_cache(url)
         return metadata
 
@@ -98,7 +134,13 @@ def fetch(
     fuzzy_mode: bool = False,
     browser_name: BrowserLabel = "chromium",
 ) -> types.Metadata | types.MetadataFuzzy:
-    """Fetch and parse HTTP content."""
+    """Fetch and parse HTTP content.
+
+    :param url: Target URL.
+    :param fuzzy_mode: Flag to enable "Fuzzy mode", See :ref:`fuzzy-mode`.
+    :param browser_name: Using browser.
+    :returns: Fetched meatadata.
+    """
     with sync_playwright() as p:
         engine = Engine(p, browser_name, fuzzy_mode)
         return engine.fetch(url)
@@ -109,7 +151,13 @@ def fetch_for_cache(
     fuzzy_mode: bool = False,
     browser_name: BrowserLabel = "chromium",
 ) -> Tuple[types.Metadata | types.MetadataFuzzy, int | None]:
-    """Fetch and parse HTTP content. return with max-age for caching."""
+    """Fetch and parse HTTP content. return with max-age for caching.
+
+    :param url: Target URL.
+    :param fuzzy_mode: Flag to enable "Fuzzy mode", See :ref:`fuzzy-mode`.
+    :param browser_name: Using browser.
+    :returns: Fetched meatadata and cachable max-age (seconds).
+    """
     with sync_playwright() as p:
         engine = Engine(p, browser_name, fuzzy_mode)
         return engine.fetch_for_cache(url)
