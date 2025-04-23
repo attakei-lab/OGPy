@@ -74,8 +74,8 @@ class Engine:
     def __init__(
         self,
         playwright: Playwright,
-        browser_name: BrowserLabel = "chromium",
         fuzzy_mode: bool = False,
+        browser_name: BrowserLabel = "chromium",
     ):
         """Initialize engine.
 
@@ -87,12 +87,12 @@ class Engine:
                engine = Engine(p)
 
         :param playwright: Running Playwright object.
-        :param browser_name: Using browser.
         :param fuzzy_mode: Flag to enable "Fuzzy mode", See :ref:`fuzzy-mode`.
+        :param browser_name: Using browser.
         """
         self._playwright = playwright
-        self._browser = get_browser(self._playwright, browser_name)
         self._fuzzy_mode = fuzzy_mode
+        self._browser = get_browser(self._playwright, browser_name)
 
     def fetch_for_cache(
         self, url: str
@@ -142,7 +142,7 @@ def fetch(
     :returns: Fetched meatadata.
     """
     with sync_playwright() as p:
-        engine = Engine(p, browser_name, fuzzy_mode)
+        engine = Engine(p, fuzzy_mode, browser_name)
         return engine.fetch(url)
 
 
@@ -159,5 +159,5 @@ def fetch_for_cache(
     :returns: Fetched meatadata and cachable max-age (seconds).
     """
     with sync_playwright() as p:
-        engine = Engine(p, browser_name, fuzzy_mode)
+        engine = Engine(p, fuzzy_mode, browser_name)
         return engine.fetch_for_cache(url)
