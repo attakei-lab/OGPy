@@ -58,6 +58,25 @@ OGPy provides function to return expired date with data object.
 :py:func:`ogpy.client.fetch_for_cache` returns tuple of data object and cachable age.
 You can store data object until expire age if you need.
 
+Broser mode
+===========
+
+There are cases that server does not response with metatags even if website has this actually.
+This main reason is due to block excluded browser using by human.
+
+When you want to read metatags anywhere, you should try "Browser mode" library.
+
+.. code-block:: python
+   :name: run-by-browser-mode.py
+
+   from pprint import pprint
+   from ogpy.client.browser import fetch  # Instead of ``from ogpy.client``.
+
+   data = fetch("https://ogp.me")
+   pprint(data)
+
+This code displays message as same as ``run.py``.
+
 More information
 ================
 
