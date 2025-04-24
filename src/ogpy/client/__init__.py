@@ -7,7 +7,7 @@ from typing import Tuple
 import httpx
 from bs4 import BeautifulSoup
 
-from . import types, parser, __version__
+from .. import types, parser, __version__
 
 USER_AGENT = f"OGPy client v{__version__}"
 
