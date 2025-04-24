@@ -20,13 +20,14 @@ It requires Sphinx.
 Usage
 =====
 
-``ogp-image`` directive
------------------------
+.. rst:directive:: ogp:image
 
-Fetch content from URL, and render image with link.
-See :ref:`demo`.
+   Fetch content from URL, and render image with link.
 
-.. _demo:
+.. rst:directive:: ogp:figure
+
+   Fetch content from URL, and render image with link.
+   This directive inherit :rst:dir:`figure` instead of :rst:dir:`image`.
 
 Demo
 ====
@@ -37,7 +38,7 @@ Demo
    .. tab-item:: Output
       :sync: output
 
-      .. ogp-image:: https://github.com/attakei-lab/OGPy
+      .. ogp:image:: https://github.com/attakei-lab/OGPy
          :scale: 50%
          :align: center
 
@@ -46,7 +47,7 @@ Demo
 
       .. code-block:: rst
 
-         .. ogp-image:: https://github.com/attakei-lab/OGPy
+         .. ogp:image:: https://github.com/attakei-lab/OGPy
             :scale: 50%
             :align: center
 
@@ -56,7 +57,7 @@ Demo
    .. tab-item:: Output
       :sync: output
 
-      .. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+      .. ogp:image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
          :width: 80%
          :align: center
 
@@ -65,6 +66,44 @@ Demo
 
       .. code-block:: rst
 
-         .. ogp-image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+         .. ogp:image:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+            :width: 80%
+            :align: center
+
+.. tab-set::
+   :sync-group: demo
+
+   .. tab-item:: Output
+      :sync: output
+
+      .. ogp:figure:: https://github.com/attakei-lab/OGPy
+         :scale: 50%
+         :align: center
+
+   .. tab-item:: Source
+      :sync: source
+
+      .. code-block:: rst
+
+         .. ogp:figure:: https://github.com/attakei-lab/OGPy
+            :scale: 50%
+            :align: center
+
+.. tab-set::
+   :sync-group: demo
+
+   .. tab-item:: Output
+      :sync: output
+
+      .. ogp:figure:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
+         :width: 80%
+         :align: center
+
+   .. tab-item:: Source
+      :sync: source
+
+      .. code-block:: rst
+
+         .. ogp:figure:: https://dev.to/attakei/hosting-presentation-on-read-the-docs-3lkc
             :width: 80%
             :align: center
