@@ -23,14 +23,37 @@ if TYPE_CHECKING:
 logger = getLogger(__name__)
 
 
+class OGPImageDirective(Image):
+    """Extended directive for og-image.
+
+    User pass content url as arguments instead of image url.
+    In extension process, it converts from content to image.
+    """
+
+    option_spec = Image.option_spec.copy()
+    del option_spec["target"]
+
+    def run(self):  # noqa: D102
+        self.options["target"] = self.arguments[0]
+        nodeset = super().run()
+        imageref = nodeset[-1]
+        image = imageref[0] if imageref.children else imageref
+        # Flag that image uri is set content URL, and fetch metadata by OgpDomain.
+        image["mark-ogpy"] = True
+        return nodeset
+
+
 class OGPDomain(Domain):
     """Domain to manage contents metadata.
 
     This has client and cache store.
     """
 
-    name = __name__
+    name = "ogp"
     label = "ogpy"
+    directives = {
+        "image": OGPImageDirective,
+    }
 
     @property
     def caches(self) -> dict[str, Tuple[types.Metadata | types.MetadataFuzzy, int]]:
@@ -73,29 +96,8 @@ class OGPDomain(Domain):
                 node["height"] = f"{image_prop.height}px"
 
 
-class OGPImageDirective(Image):
-    """Extended directive for og-image.
-
-    User pass content url as arguments instead of image url.
-    In extension process, it converts from content to image.
-    """
-
-    option_spec = Image.option_spec.copy()
-    del option_spec["target"]
-
-    def run(self):  # noqa: D102
-        self.options["target"] = self.arguments[0]
-        nodeset = super().run()
-        imageref = nodeset[-1]
-        image = imageref[0] if imageref.children else imageref
-        # Flag that image uri is set content URL, and fetch metadata by OgpDomain.
-        image["mark-ogpy"] = True
-        return nodeset
-
-
 def setup(app: Sphinx):
     """Entrypoint as Sphinx-extension."""
-    app.add_directive("ogp-image", OGPImageDirective)
     app.add_domain(OGPDomain)
     return {
         "version": importlib.metadata.version("ogpy"),

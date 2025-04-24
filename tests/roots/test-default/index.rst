@@ -1,4 +1,4 @@
 Testdoc
 =======
 
-.. ogp-image:: http://ogp.me/
+.. ogp:image:: http://ogp.me/
