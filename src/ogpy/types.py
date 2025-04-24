@@ -6,6 +6,8 @@ Refs
 * https://ogp.me/
 """
 
+from __future__ import annotations
+
 from dataclasses import KW_ONLY, dataclass, field
 from typing import Literal
 

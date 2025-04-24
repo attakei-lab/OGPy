@@ -1,18 +1,24 @@
 """OGPy Sphinx adapter."""
 
+from __future__ import annotations
+
 import importlib.metadata
 from datetime import datetime
-from typing import Tuple
+from typing import TYPE_CHECKING
 
 from docutils import nodes
 from docutils.parsers.rst.directives.images import Image
-from sphinx.application import Sphinx
 from sphinx.domains import Domain
-from sphinx.environment import BuildEnvironment
 from sphinx.util.logging import getLogger
 
-from .. import types
 from ..client import fetch_for_cache
+
+if TYPE_CHECKING:
+    from typing import Tuple
+    from sphinx.application import Sphinx
+    from sphinx.environment import BuildEnvironment
+
+    from .. import types
 
 logger = getLogger(__name__)
 

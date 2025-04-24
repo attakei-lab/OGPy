@@ -1,12 +1,17 @@
 """CLI entrypoint."""
 
+from __future__ import annotations
+
 import argparse
 import json
 import sys
 from dataclasses import asdict
+from typing import TYPE_CHECKING
 
-from . import types
 from .client import fetch
+
+if TYPE_CHECKING:
+    from . import types
 
 parser = argparse.ArgumentParser(
     description="Parse and display OGP metadata from content."

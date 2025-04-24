@@ -1,13 +1,19 @@
 """HTTP client wrapper."""
 
+from __future__ import annotations
+
 import re
 from datetime import datetime
-from typing import Tuple
+from typing import TYPE_CHECKING
 
 import httpx
 from bs4 import BeautifulSoup
 
-from .. import types, parser, __version__
+from .. import parser, __version__
+
+if TYPE_CHECKING:
+    from typing import Tuple
+    from .. import types
 
 USER_AGENT = f"OGPy client v{__version__}"
 

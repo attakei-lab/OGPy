@@ -1,10 +1,15 @@
 """Parse functions."""
 
-from typing import Any, Callable
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from bs4 import BeautifulSoup
 
 from . import types
+
+if TYPE_CHECKING:
+    from typing import Any, Callable
 
 
 def _number(val: str) -> types.NUMBER:
