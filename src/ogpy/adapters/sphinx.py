@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from docutils import nodes
-from docutils.parsers.rst.directives.images import Image
+from docutils.parsers.rst.directives.images import Figure, Image
 from sphinx.domains import Domain
 from sphinx.util.logging import getLogger
 
@@ -43,6 +43,26 @@ class OGPImageDirective(Image):
         return nodeset
 
 
+class OGPFigureDirective(Figure):
+    """Extended directive for og-image as figure style.
+
+    User pass content url as arguments instead of image url.
+    In extension process, it converts from content to image.
+    """
+
+    option_spec = Figure.option_spec.copy()
+    del option_spec["target"]
+
+    def run(self):  # noqa: D102
+        self.options["target"] = self.arguments[0]
+        nodeset = super().run()
+        imageref = nodeset[0].children[-1]
+        image = imageref[0] if imageref.children else imageref
+        # Flag that image uri is set content URL, and fetch metadata by OgpDomain.
+        image["mark-ogpy"] = True
+        return nodeset
+
+
 class OGPDomain(Domain):
     """Domain to manage contents metadata.
 
@@ -53,6 +73,7 @@ class OGPDomain(Domain):
     label = "ogpy"
     directives = {
         "image": OGPImageDirective,
+        "figure": OGPFigureDirective,
     }
 
     @property

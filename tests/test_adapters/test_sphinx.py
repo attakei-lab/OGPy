@@ -23,3 +23,5 @@ def test_href(app: SphinxTestApp, status, warning):  # noqa
     a = soup.find_all("a", {"href": "http://ogp.me/"})
     assert a
     assert a[0].img["src"] == "https://ogp.me/logo.png"
+    a = soup.find_all("a", {"href": "http://github.com/attakei-lab/OGPy"})
+    assert a
