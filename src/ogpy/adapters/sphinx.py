@@ -70,7 +70,7 @@ class OGPDomain(Domain):
     """
 
     name = "ogp"
-    label = "ogpy"
+    label = "OGPy Image manageent"
     directives = {
         "image": OGPImageDirective,
         "figure": OGPFigureDirective,
