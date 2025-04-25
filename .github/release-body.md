@@ -1,2 +1,2 @@
-- Changelog is https://github.com/attakei-lab/OGPy/blob/v0.1.1/CHANGES.rst
-- You can source diff to https://github.com/attakei/OGPy/compare/v0.1.0..v0.1.1
+- Changelog is https://github.com/attakei-lab/OGPy/blob/v0.2.0/CHANGES.rst
+- You can source diff to https://github.com/attakei/OGPy/compare/v0.1.1..v0.2.0

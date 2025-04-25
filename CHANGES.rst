@@ -1,5 +1,31 @@
-v0.1.1
+v0.2.0
 ======
+
+:date: 2025-04-26 (Asia/Tokyo)
+
+Breaking changes
+----------------
+
+* Sphinx adapter
+
+  * Rename directive from ``ogp-image`` to ``ogp:image``.
+
+Features
+--------
+
+* Add headless browser based fetching using Playwright.
+* Sphinx adapter
+
+  * Add new directive ``ogp:figure``.
+  * Add configurations for "Browser mode".
+
+Others
+------
+
+* Update taskfile.
+
+ver 0.1.1
+=========
 
 :date: 2025-04-22 (Asia/Tokyo)
 
