@@ -82,6 +82,23 @@ class OGPDomain(Domain):
         self.data.setdefault("caches", {})
         return self.data["caches"]
 
+    @property
+    def use_browser(self) -> bool:
+        return self.env.config.ogp_use_browser
+
+    @property
+    def browser_name(self) -> str:
+        return self.env.config.ogp_browser_name
+
+    def _fetch_for_cache(
+        self, url
+    ) -> Tuple[types.Metadata | types.MetadataFuzzy, int | None]:
+        if self.use_browser:
+            from ogpy.client import browser
+
+            return browser.fetch_for_cache(url, browser_name=self.browser_name)  # type: ignore[arg-type]
+        return fetch_for_cache(url)
+
     def _get_metadata(self, url) -> types.Metadata | types.MetadataFuzzy:
         """Retrieve metadata of url.
 
@@ -93,7 +110,7 @@ class OGPDomain(Domain):
             if cache_expired >= int(now.timestamp()):
                 return data
 
-        data, expired = fetch_for_cache(url)
+        data, expired = self._fetch_for_cache(url)
         if expired:
             self.caches[url] = (data, expired)
         return data
@@ -120,6 +137,8 @@ class OGPDomain(Domain):
 def setup(app: Sphinx):
     """Entrypoint as Sphinx-extension."""
     app.add_domain(OGPDomain)
+    app.add_config_value("ogp_use_browser", False, "env", bool)
+    app.add_config_value("ogp_browser_name", "chromium", "env", str)
     return {
         "version": importlib.metadata.version("ogpy"),
         "parallel_read_safe": True,

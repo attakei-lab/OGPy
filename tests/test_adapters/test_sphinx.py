@@ -25,3 +25,16 @@ def test_href(app: SphinxTestApp, status, warning):  # noqa
     assert a[0].img["src"] == "https://ogp.me/logo.png"
     a = soup.find_all("a", {"href": "http://github.com/attakei-lab/OGPy"})
     assert a
+
+
+@pytest.mark.webtest
+@pytest.mark.sphinx(
+    "html",
+    testroot="default",
+    configoverrides={
+        "ogp_use_browserl": True,
+    },
+)
+def test_browser_mode(app: SphinxTestApp):  # noqa
+    # Test for only works build.
+    app.build()
