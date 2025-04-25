@@ -29,6 +29,21 @@ Usage
    Fetch content from URL, and render image with link.
    This directive inherit :rst:dir:`figure` instead of :rst:dir:`image`.
 
+Configurations
+==============
+
+.. confval:: ogp_use_browser
+   :type: bool
+   :default: ``False``
+
+   If this value is ``True``, extension runs as :ref:`browser-mode` when fetching metadata from websites.
+
+.. confval:: ogp_browser_name
+   :type: str
+   :default: ``"chromium"``
+
+   Settings for what browser does it use when :confval:`ogp_use_browser` is ``True``.
+
 Demo
 ====
 
