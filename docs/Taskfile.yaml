@@ -24,7 +24,7 @@ tasks:
     desc: 'Run docs server'
     dir: '{{.TASKFILE_DIR}}'
     cmds:
-      - '{{.RUN_PYTHON}} sphinx-autobuild -b dirhtml {{.SPHINX_SOURCE_DIR}} {{.SPHINX_OUTPUT_DIR}}/dirhtml'
+      - '{{.RUN_PYTHON}} sphinx-autobuild -b dirhtml {{.SPHINX_SOURCE_DIR}} {{.SPHINX_OUTPUT_DIR}}/dirhtml {{.CLI_ARGS}}'
   apidoc:
     desc: 'Update apidoc'
     dir: '{{.TASKFILE_DIR}}'
